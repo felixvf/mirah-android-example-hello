@@ -32,6 +32,9 @@ before_install:
   - adb logcat > logcat.log &
   - wait_for_emulator
 
+# no separate dependency management
+install: true
+
 script:
   - ./gradlew --stacktrace connectedCheck
   - ./gradlew --stop
