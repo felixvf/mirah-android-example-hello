@@ -33,7 +33,7 @@ before_install:
   - wait_for_emulator
 
 script:
-  - ./gradlew connectedCheck
+  - ./gradlew --stacktrace connectedCheck
   - ./gradlew --stop
 
 after_failure:
