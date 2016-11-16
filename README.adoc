@@ -1,0 +1,4 @@
+= Mirah for Android Example
+
+image::https://travis-ci.org/felixvf/mirah-android-example-hello.svg[alt="Build Status", link="https://travis-ci.org/felixvf/mirah-android-example-hello"]
+
