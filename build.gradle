@@ -8,6 +8,10 @@ buildscript {
 	}
 }
 
+plugins {
+  id 'org.mirah.lang' version '0.9'
+}
+
 apply plugin: 'com.android.application'
 
 android {
