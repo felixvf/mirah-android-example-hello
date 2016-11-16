@@ -1,0 +1,40 @@
+# As an exception to the license of this repository, this original of this file
+# is licensed under the Apache License, Version 2.0. However, all changes and
+# contributions are licensed also under the license of this repository, not only
+# under the Apache License, Version 2.0.
+
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
+language: java
+jdk: oraclejdk7
+before_install:
+  - export COMPONENTS=build-tools-22.0.1,android-22,sys-img-armeabi-v7a-android-18
+  # The Android SDK License may be valid for the Travis run, and then terminates automatically.
+  - curl -L https://raw.github.com/embarkmobile/android-sdk-installer/version-2/android-sdk-installer | bash /dev/stdin --install=$COMPONENTS --accept=android-sdk-license-c81a61d9
+  - source ~/.android-sdk-installer/env
+
+  # Create and start emulator
+  - echo no | android create avd --force -n test -t android-18 --abi armeabi-v7a
+  - emulator -avd test -no-audio -no-window -memory 512 -wipe-data > emulator.log 2>&1 &
+  - adb logcat > logcat.log &
+  - wait_for_emulator
+
+script:
+  - ./gradlew connectedCheck
+  - ./gradlew --stop
+
+after_failure:
+  - cat emulator.log
+  - cat logcat.log
